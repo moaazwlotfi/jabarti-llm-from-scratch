@@ -54,12 +54,12 @@ def download_pretrain(max_shards: int | None = None) -> list[Path]:
 
 def build_tokenizer_corpus(train_shards: list[Path], target_docs: int) -> None:
     """Sample evenly across shards, clean, and write the tokenizer's training text."""
-    per_shard = -(-target_docs // len(train_shards))  # ceil division
+    docs_per_shard = -(-target_docs // len(train_shards))  # ceil division
     parts = []
     for i, shard in enumerate(train_shards):
         df = pd.read_parquet(shard, columns=KEEP_COLUMNS)
-        df = df.sample(n=min(per_shard, len(df)), random_state=SAMPLE_SEED + i)
-        parts.append(clean_dataframe(df).drop(columns="orig_len"))
+        df = df.sample(n=min(docs_per_shard, len(df)), random_state=SAMPLE_SEED + i)
+        parts.append(clean_dataframe(df))
 
     corpus = pd.concat(parts, ignore_index=True)
     corpus.to_parquet(TOKENIZER_CORPUS, index=False)

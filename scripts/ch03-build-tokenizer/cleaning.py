@@ -190,12 +190,5 @@ def prepare_document(text, min_section_words=MIN_SECTION_WORDS):
     return cleaned_text.strip()
 
 def clean_dataframe(df, text_col="text", min_chars=40):
-
-    new_df = df.copy()
-
-    new_df["orig_len"] = new_df[text_col].str.len()
-
-    new_df[text_col] = new_df[text_col].map(prepare_document)
-    new_df = new_df[ new_df[text_col].str.len() >= min_chars ].reset_index(drop=True)
-
-    return new_df
+    out = df.assign(**{text_col: df[text_col].map(prepare_document)})
+    return out[out[text_col].str.len() >= min_chars].reset_index(drop=True)
