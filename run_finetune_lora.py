@@ -28,6 +28,7 @@ from jabarti_llm import (
 from jabarti_llm.config import steps_for_epochs, unique_run_name
 from jabarti_llm.training import load_checkpoint, model_config_from_checkpoint
 
+# TODO: fetch finetune splits via hf_hub_download, 01_clean_corpus doesn't generate them anymore 
 FT_TRAIN = "scripts/ch03-build-tokenizer/output/ft_train_filtered.parquet"
 FT_EVAL = "scripts/ch03-build-tokenizer/output/ft_eval_filtered.parquet"
 

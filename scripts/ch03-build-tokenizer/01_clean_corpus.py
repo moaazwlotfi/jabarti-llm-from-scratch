@@ -80,22 +80,6 @@ def demo_normalizer():
         print(f"  normalized: {normalize_text(s)}")
         print("="*30)
 
-def clean_phase(phase, input_path, output_path):
-
-    print(f"==== clean_phase: {phase} ====")
-
-    df = pd.read_parquet(input_path)
-
-    print(f"  Source        : {input_path}")
-    print(f"  Rows          : {len(df):,}")
-
-    cleaned_df = clean_dataframe(df)
-
-    removed_rows = len(df) - len(cleaned_df)
-    print(f"  Rows kept        : {len(cleaned_df):,}  (dropped {removed_rows:,} empty rows)")
-
-    cleaned_df.to_parquet(output_path, index=False)
-
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--max-shards", type=int, default=None,
